@@ -1,0 +1,33 @@
+version: '3'
+networks:
+  bridge:
+    driver: bridge
+volumes:
+  docker-in-docker:
+    driver: ${VOLUMES_DRIVER}
+services:
+  workspace:
+    build:
+      context: ./docker/workspace
+      args:
+        - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
+        - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
+        - INSTALL_NPM_VUE_CLI=${WORKSPACE_INSTALL_NPM_VUE_CLI}
+        - NPM_REGISTRY=${WORKSPACE_NPM_REGISTRY}
+        - NPM_FETCH_RETRIES=${WORKSPACE_NPM_FETCH_RETRIES}
+        - NPM_FETCH_RETRY_FACTOR=${WORKSPACE_NPM_FETCH_RETRY_FACTOR}
+        - NPM_FETCH_RETRY_MINTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MINTIMEOUT}
+        - NPM_FETCH_RETRY_MAXTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MAXTIMEOUT}
+        - NVM_NODEJS_ORG_MIRROR=${WORKSPACE_NVM_NODEJS_ORG_MIRROR}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      - docker-in-docker:/certs/client
+    #links:
+    #  - mysql_go
+    #depends_on:
+    #  - mysql_go
+    #  - redis_go
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
