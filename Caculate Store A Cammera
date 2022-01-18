@@ -1,0 +1,8 @@
+bitrate = 1024
+hour=1*24
+day=1
+3600 × (day * hour) × bitrate ÷ 8 ÷ 1024 ÷ 1024
+
+Example:
+A camera with resolution D1:1024 Bitrate
+3600 × 24 × 1024 ÷ 8 ÷ 1024 ÷ 1024 ~= 11GB/day
